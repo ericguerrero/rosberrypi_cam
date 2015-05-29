@@ -19,7 +19,9 @@ include_directories(
 add_executable(rosberrypi_cam_node src/main.cpp)
 target_link_libraries(rosberrypi_cam_node 
   ${raspicam_LIBS}
+/usr/local/lib/libraspicam.so
   ${raspicam_CV_LIBS}
+/usr/local/lib/libraspicam_cv.so
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
   ${Boost_LIBRARIES}

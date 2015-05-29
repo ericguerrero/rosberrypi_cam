@@ -42,4 +42,6 @@ $ rosrun rosberrypi_cam rosberrypi_cam_node
 ```
 
 Copyright (c) 2015, Dan Lazewatsky
+
 README (and small tweaks) added by Antoine Choppin
+

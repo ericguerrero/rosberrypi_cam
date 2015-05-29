@@ -21,15 +21,22 @@ int main(int argc, char **argv) {
     color_mode_map["rgb8"] = CV_8UC3;
     ros::init(argc, argv, "rosberrypi_cam");
     ros::NodeHandle nh("~");
-    RaspiCam_Cv camera_cv;
-    camera_cv.set(CV_CAP_PROP_FORMAT, CV_8UC1);
+
     int fps;
     std::string color_mode;
+    int height, width;
     nh.param("fps", fps, 10);
-	nh.param<std::string>("color_mode", color_mode, "rgb8");
-	
+    nh.param<std::string>("color_mode", color_mode, "mono8");
+    nh.param("height", height, 200);
+    nh.param("width", width, 320);
+
+    RaspiCam_Cv camera_cv;
+    camera_cv.set(CV_CAP_PROP_FORMAT, CV_8UC1);
     camera_cv.set(CV_CAP_PROP_FORMAT, color_mode_map[color_mode]);
     camera_cv.set(CV_CAP_PROP_FPS, fps);
+    camera_cv.set(CV_CAP_PROP_FRAME_WIDTH, width);
+    camera_cv.set(CV_CAP_PROP_FRAME_HEIGHT, height);
+
     if(!camera_cv.open())
         ROS_ERROR("Error opening camera");
     sleep(3);
@@ -41,11 +48,13 @@ int main(int argc, char **argv) {
 	
     image_transport::ImageTransport it(nh);
     image_transport::CameraPublisher pub = it.advertiseCamera("image_raw", 1);
+
     std::string camera_name = nh.getNamespace();
     camera_info_manager::CameraInfoManager cinfo_(nh, camera_name);
 
     ros::Rate rate(fps);
     while(ros::ok()) {
+        //printf("- %f... ", ros::Time::now().toSec());
         camera_cv.grab();
         camera_cv.retrieve(cv_img);
         std_msgs::Header header();
@@ -56,6 +65,7 @@ int main(int argc, char **argv) {
         imgmsg.encoding = color_mode;
         imgmsg.image = cv_img;
         pub.publish(*imgmsg.toImageMsg(), ci, ros::Time::now());
+        //printf("%f\n", ros::Time::now().toSec());
         rate.sleep();
         ros::spinOnce();
     }
