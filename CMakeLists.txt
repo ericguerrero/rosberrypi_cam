@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(rosberrypi_cam)
 
+set(raspicam_DIR "/usr/local/lib/cmake")
+
 find_package(catkin REQUIRED COMPONENTS
   image_transport roscpp cv_bridge camera_info_manager
 )
