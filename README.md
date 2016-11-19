@@ -2,11 +2,9 @@
 
 ROS driver for RaspberryPi camera module
 
-## Installation
+## Dependencies
 
-Make sure ROS is installed on the Raspberry Pi.
-
-Install raspicam:
+### Raspicam:
 
 ```
 $ cd ~/catkin_ws
@@ -21,27 +19,13 @@ $ cd build
 $ cmake ..
 ```
 
-Now download and build rosberrypi_cam:
-
-```
-$ cd ~/catkin_ws/src
-$ git clone https://github.com/japonophile/rosberrypi_cam.git
-$ cd ~/catkin_ws
-$ catkin_make
-```
-
 ## Usage
 
 Run roscore locally on the Pi or remotely (set the ROS_MASTER_URI accordingly).
 Run the rosberrypi_cam_node
 
 ```
-$ cd ~/catkin_ws
-$ source devel/setup.bash
 $ rosrun rosberrypi_cam rosberrypi_cam_node
 ```
 
-Copyright (c) 2015, Dan Lazewatsky
-
-README (and small tweaks) added by Antoine Choppin
 
